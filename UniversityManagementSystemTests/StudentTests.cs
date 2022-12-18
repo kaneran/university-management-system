@@ -2,7 +2,7 @@ using UniversityManagementSystem.Service;
 
 namespace UniversityManagementSystemTests
 {
-    public class Tests
+    public class StudentTests
     {
         private StudentService _studentService;
         [SetUp]
@@ -13,7 +13,7 @@ namespace UniversityManagementSystemTests
 
         [Test]
         [TestCase("John Doe", true)]
-        [TestCase("Justin Smith", false)]
+        [TestCase("Justin Foley", false)]
         public void Check_If_User_Has_To_Retake_Modules(string studentName, bool retakeRequired)
         {
             var result = _studentService.CheckIfRetakesRequired(studentName);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UniversityManagementSystem.Entities;
+using UniversityManagementSystem.ValueObjects;
 
 namespace UniversityManagementSystem.Services
 {
@@ -19,7 +20,7 @@ namespace UniversityManagementSystem.Services
 
         public List<Module> GetAllModules()
         {
-            var modules = new List<Module>() { new Module(1, "Networks and Operating Systems"), new Module(2, "Theory of Computation"), new Module(3, "Final Year Project") };
+            var modules = new List<Module>() { new Module(new ModuleId(1), "Networks and Operating Systems"), new Module(new ModuleId(2), "Theory of Computation"), new Module(new ModuleId(3), "Final Year Project") };
             return modules;
         }
 
