@@ -31,11 +31,11 @@ namespace UniversityManagementSystem.Services
         }
         public List<int> GetScoresForCurrentYear(Student student)
         {
-            var scores = (from moduleGrade in _moduleGrades
+            var moduleGrades = (from moduleGrade in _moduleGrades
                           where moduleGrade.StudentId == student.Id
-                          select moduleGrade).ToDictionary(mg => mg.ModuleId, mg => new {score = mg.Score, yearAtUni = mg.YearAtUni});
-            var currentYear = scores.Values.Select(value => value.yearAtUni).ToList().Max();
-            var currentYearScores = scores.Values.Where(value => value.yearAtUni == currentYear).Select(value => value.score).ToList();
+                          select new {moduleId= moduleGrade.ModuleId, score= moduleGrade.Score, yearAtUni= moduleGrade.YearAtUni});
+            var currentYear = moduleGrades.Select(mg => mg.yearAtUni).Max();
+            var currentYearScores = moduleGrades.Where(mg => mg.yearAtUni == currentYear).Select(mg => mg.score).ToList();
             return currentYearScores;
         }
     }
