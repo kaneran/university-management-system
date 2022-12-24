@@ -26,15 +26,17 @@ namespace UniversityManagementSystem.Services
 
         public List<ModuleGrade> GetAllModuleGrades()
         {
-            var moduleGrades = new List<ModuleGrade>() { new ModuleGrade(1, 1, 91, 2), new ModuleGrade(1, 2, 95, 2), new ModuleGrade(1, 3, 83, 3), new ModuleGrade(2, 3, 75, 3) };
+            var moduleGrades = new List<ModuleGrade>() { new ModuleGrade(1, 1, 91, 2), new ModuleGrade(1, 2, 95, 2), new ModuleGrade(1, 3, 83, 3), new ModuleGrade(2, 3, 39, 3) };
             return moduleGrades;
         }
         public List<int> GetScoresForCurrentYear(Student student)
         {
-            var scores = (from moduleGrades in _moduleGrades
-                          where moduleGrades.StudentId == student.Id
-                          select moduleGrades.Score).ToList();
-            return scores;
+            var scores = (from moduleGrade in _moduleGrades
+                          where moduleGrade.StudentId == student.Id
+                          select moduleGrade).ToDictionary(mg => mg.ModuleId, mg => new {score = mg.Score, yearAtUni = mg.YearAtUni});
+            var currentYear = scores.Values.Select(value => value.yearAtUni).ToList().Max();
+            var currentYearScores = scores.Values.Where(value => value.yearAtUni == currentYear).Select(value => value.score).ToList();
+            return currentYearScores;
         }
     }
 }

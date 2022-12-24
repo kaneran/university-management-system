@@ -17,7 +17,13 @@ namespace UniversityManagementSystem.Service
         {
             var student = _students.Where(s => s.FullName == studentName).SingleOrDefault();
             var scores = _moduleService.GetScoresForCurrentYear(student);
-            return studentName == "John Doe";
+            var retakeRequired = scores.Where(score => score >= 40).Count() == scores.Count();
+            return retakeRequired;
+        }
+
+        public uint GetFinalGrade(string studentName)
+        {
+            return 0;
         }
 
         public List<Student> GetAllStudents()

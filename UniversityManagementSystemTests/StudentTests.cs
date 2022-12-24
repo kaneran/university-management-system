@@ -19,5 +19,13 @@ namespace UniversityManagementSystemTests
             var result = _studentService.CheckIfRetakesRequired(studentName);
             Assert.That(result,Is.EqualTo(retakeRequired));
         }
+
+        [Test]
+        public void Get_Final_Grade_For_Course()
+        {
+            var studentName = "John Doe";
+            var finalGrade = _studentService.GetFinalGrade(studentName);
+            Assert.AreEqual(finalGrade, 84);
+        }
     }
 }
