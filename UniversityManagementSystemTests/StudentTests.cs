@@ -1,3 +1,4 @@
+using UniversityManagementSystem.Exceptions;
 using UniversityManagementSystem.Service;
 
 namespace UniversityManagementSystemTests
@@ -12,8 +13,8 @@ namespace UniversityManagementSystemTests
         }
 
         [Test]
-        [TestCase("John Doe", true)]
-        [TestCase("Justin Foley", false)]
+        [TestCase("John Doe", false)]
+        [TestCase("Justin Foley", true)]
         public void Check_If_User_Has_To_Retake_Modules(string studentName, bool retakeRequired)
         {
             var result = _studentService.CheckIfRetakesRequired(studentName);
@@ -25,7 +26,15 @@ namespace UniversityManagementSystemTests
         {
             var studentName = "John Doe";
             var finalGrade = _studentService.GetFinalGrade(studentName);
-            Assert.AreEqual(finalGrade, 84);
+            Assert.AreEqual(finalGrade.FinalScore, 89.7);
+            Assert.AreEqual(finalGrade.FinalClassification, "First class");
+        }
+
+        [Test]
+        public void Check_Modules_Not_Completed_Exception_IsThrown()
+        {
+            var studentName = "Justin Foley";
+            Assert.Throws<StudentHasntCompletedAllModulesException>(() => _studentService.GetFinalGrade(studentName));
         }
     }
 }

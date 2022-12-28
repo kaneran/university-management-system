@@ -38,5 +38,12 @@ namespace UniversityManagementSystem.Services
             var currentYearScores = moduleGrades.Where(mg => mg.yearAtUni == currentYear).Select(mg => mg.score).ToList();
             return currentYearScores;
         }
+
+        public IEnumerable<int> GetAllModuleGrades(Student student)
+        {
+            var moduleGrades = _moduleGrades.Where(mg => mg.StudentId == student.Id).Select(mg => mg.Score);
+            return moduleGrades;
+
+        }
     }
 }
