@@ -8,7 +8,7 @@ namespace UniversityManagementSystem.Service
     {
         private List<Student> _students;
         private ModuleService _moduleService;
-        private Dictionary<string, ClassificationRange> _classificationMap;
+        private IReadOnlyDictionary<string, ClassificationRange> _classificationMap;
         public StudentService()
         {
             _students = GetAllStudents();
@@ -56,6 +56,10 @@ namespace UniversityManagementSystem.Service
 
         public Student GetStudent(string studentName) => _students.SingleOrDefault(s => s.FullName == studentName);
 
-        public bool CheckIfRetakeRequired(IEnumerable<int> scores) => scores.Where(score => score >= 40).Count() != scores.Count();
+        public bool CheckIfRetakeRequired(IEnumerable<int> scores)
+        {
+            var modulesPassed = scores.Where(score => score >= 40).Count();
+            return modulesPassed != scores.Count();
+        } 
     }
 }

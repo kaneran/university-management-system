@@ -8,8 +8,8 @@ namespace UniversityManagementSystem.Entities
 {
     public class ClassificationRange
     {
-        public double MinGrade { get; set; }
-        public double MaxGrade { get; set; }
+        public double MinGrade { get; }
+        public double MaxGrade { get; }
         public ClassificationRange(double minGrade, double maxGrade)
         {
             MinGrade = minGrade;

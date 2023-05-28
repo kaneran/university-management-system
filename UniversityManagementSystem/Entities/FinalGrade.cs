@@ -8,8 +8,8 @@ namespace UniversityManagementSystem.Entities
 {
     public class FinalGrade
     {
-        public double FinalScore { get; set; }
-        public string FinalClassification { get; set; }
+        public double FinalScore { get; }
+        public string FinalClassification { get; }
         public FinalGrade(double finalScore, string finalClassification)
         {
             FinalScore = finalScore;

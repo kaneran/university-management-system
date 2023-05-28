@@ -11,7 +11,7 @@ namespace UniversityManagementSystem.Services
     public class ModuleService
     {
         private List<Module> _modules;
-        private List<ModuleGrade> _moduleGrades;
+        private IReadOnlyDictionary<int, List<ModuleGrade>> _moduleGrades;
         public ModuleService()
         {
             _modules = GetAllModules();
@@ -24,15 +24,23 @@ namespace UniversityManagementSystem.Services
             return modules;
         }
 
-        public List<ModuleGrade> GetAllModuleGrades()
+        public IReadOnlyDictionary<int,List<ModuleGrade>> GetAllModuleGrades()
         {
-            var moduleGrades = new List<ModuleGrade>() { new ModuleGrade(1, 1, 91, 2), new ModuleGrade(1, 2, 95, 2), new ModuleGrade(1, 3, 83, 3), new ModuleGrade(2, 3, 39, 3) };
+            IReadOnlyDictionary<int, List<ModuleGrade>> moduleGrades = new Dictionary<int, List<ModuleGrade>>()
+            {
+                { 1, new List<ModuleGrade>(){
+                    new ModuleGrade(1, 91, 2), new ModuleGrade(2, 95, 2), new ModuleGrade(3, 83, 3)
+                } },
+                { 2, new List<ModuleGrade>(){
+                    new ModuleGrade(3, 39, 3)
+                } }
+            };
             return moduleGrades;
         }
         public List<int> GetScoresForCurrentYear(Student student)
         {
-            var moduleGrades = (from moduleGrade in _moduleGrades
-                          where moduleGrade.StudentId == student.Id
+            var allModuleGradesForStudent = _moduleGrades[student.Id];
+            var moduleGrades = (from moduleGrade in allModuleGradesForStudent
                           select new {moduleId= moduleGrade.ModuleId, score= moduleGrade.Score, yearAtUni= moduleGrade.YearAtUni});
             var currentYear = moduleGrades.Select(mg => mg.yearAtUni).Max();
             var currentYearScores = moduleGrades.Where(mg => mg.yearAtUni == currentYear).Select(mg => mg.score).ToList();
@@ -41,7 +49,7 @@ namespace UniversityManagementSystem.Services
 
         public IEnumerable<int> GetAllModuleGrades(Student student)
         {
-            var moduleGrades = _moduleGrades.Where(mg => mg.StudentId == student.Id).Select(mg => mg.Score);
+            var moduleGrades = _moduleGrades[student.Id].Select(mg => mg.Score);
             return moduleGrades;
 
         }

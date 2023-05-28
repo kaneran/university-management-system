@@ -8,13 +8,11 @@ namespace UniversityManagementSystem.Entities
 {
     public class ModuleGrade
     {
-        public int StudentId { get; set; }
-        public int ModuleId { get; set; }
-        public int Score { get; set; }
-        public int YearAtUni { get; set; }
-        public ModuleGrade(int studentId, int moduleId, int score, int yearAtUni)
+        public int ModuleId { get; }
+        public int Score { get; }
+        public int YearAtUni { get; }
+        public ModuleGrade(int moduleId, int score, int yearAtUni)
         {
-            StudentId = studentId;
             ModuleId = moduleId;
             Score = score;
             YearAtUni = yearAtUni;
